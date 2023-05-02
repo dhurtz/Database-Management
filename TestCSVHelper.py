@@ -4,7 +4,7 @@ from CSVHelper import CSVHelper
 class TestCSVHelper (unittest.TestCase):
     def test_findColumn(self):
         path = os.getcwd()
-        path = path  + '\\testFolder\\testCSV.csv'
+        path = path  + '/testFolder/testCSV.csv'
         with open(path, 'r', newline='') as file_one:
             reader = csv.reader(file_one)
             data_1 = list(reader)
