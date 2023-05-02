@@ -57,3 +57,6 @@ jobs:
 
     - name: Build Image
       run: docker build . -t latest
+    -name: Push to docker hub
+      run: |
+      docker push latest
