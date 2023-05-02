@@ -51,14 +51,3 @@ jobs:
           - name: Run Docker image
             run: |
               docker run latest
-  imagebuilder:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: Build Image
-      run: docker build . -t latest
-    - name: Push to docker hub
-      run: |
-        docker push latest
