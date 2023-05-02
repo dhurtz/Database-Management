@@ -46,3 +46,11 @@ jobs:
           - name: Test with unittest
             run: |
               python -m unittest discover -p "Test*.py"
+  imagebuilder:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Build Image
+      run: docker build. --file Dockerfile
