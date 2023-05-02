@@ -8,5 +8,3 @@ COPY DirectoryMgr.py ./
 COPY InputMgr.py ./
 COPY Joiner.py ./
 COPY ModifyCSV.py ./
-
-CMD ["python", "./8001175981_pa4.py"]
