@@ -1,12 +1,15 @@
-import unittest
+import unittest, os, csv
 from CSVHelper import CSVHelper
 
 class TestCSVHelper (unittest.TestCase):
-    # def test_findColumn(self):
-    #     findCoulumnData = [['int', 'user', 6], 
-    #                        ['string', 'man', 3], 
-    #                        ['float', 'clerk', 4]]
-    #     self.assertTrue(1, CSVHelper.findColumn(findCoulumnData, '6'))
+    def test_findColumn(self):
+        path = os.getcwd()
+        path = path  + '\\testFolder\\testCSV.csv'
+        with open(path, 'r', newline='') as file_one:
+            reader = csv.reader(file_one)
+            data_1 = list(reader)
+            file_one.close()
+        self.assertTrue(3, CSVHelper.findColumn(data_1, '3'))
 
     def test_Convert(self):
         convertData = ['Dog', 'Lab']
