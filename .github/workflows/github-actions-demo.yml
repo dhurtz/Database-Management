@@ -55,7 +55,7 @@ jobs:
               python -m unittest discover -p "Test*.py"
           - name: Check TestCoverage
             run: |
-          coverage run -m --include CSVHelper.py,DirectoryMgr.py,InputMgr.py,Joiner.py,ModifyCSV.p      
+              coverage run -m --include CSVHelper.py,DirectoryMgr.py,InputMgr.py,Joiner.py,ModifyCSV.p      
               coverage report -m-
           - name: Run Docker image
             run: |
