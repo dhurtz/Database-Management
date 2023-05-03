@@ -15,13 +15,15 @@ class DirectoryMgr:
     def makeDir(dirName):
         path = os.getcwd()
         path = path + '/' + dirName
-        return os.mkdir(path)
+        os.mkdir(path)
+        return True
     
     # removes a directory
     def removeDir(dirName):
         path = os.getcwd()
         path = path + '/' + dirName
-        return os.rmdir(path)
+        os.rmdir(path)
+        return True
 
     # validates if a file exists
     def validateFile(fileName, database):
@@ -33,4 +35,5 @@ class DirectoryMgr:
     def removeFile(fileName, database):
         path = os.getcwd()
         path = path + '/' + database + '/' + fileName + '.csv'
-        return os.remove(path)
+        os.remove(path)
+        return True

@@ -1,5 +1,6 @@
-import unittest, os, csv
+import unittest, os, csv, sys
 from CSVHelper import CSVHelper
+from io import StringIO
 
 class TestCSVHelper (unittest.TestCase):
     def test_findColumn(self):
@@ -20,3 +21,10 @@ class TestCSVHelper (unittest.TestCase):
         findTableNameData = 'tableName(int age, float date)'
         resultData = 'tableName'
         self.assertEqual(CSVHelper.findTableName(findTableNameData), resultData)
+
+    def test_printList(self):
+        capturedOutput = StringIO()
+        sys.stdout = capturedOutput
+        list = ['dog', 'cat', 'bear']
+        printStatement = 'dog | cat | bear |'
+        self.assertTrue(printStatement, CSVHelper.printList(list))
