@@ -31,9 +31,10 @@ jobs:
         run: |
           coverage run -m unittest discover -p "Test*.py"          
           python -m unittest discover -p "Test*.py"
+          coverage report -m
       - name: Get Test Report
         run: |
-          coverage run --include CSVHelper.py,DirectoryMgr.py,InputMgr.py,Joiner.py,ModifyCSV.py
+          coverage run --include CSVHelper.py,DirectoryMgr.py,InputMgr.py,Joiner.py,ModifyCSV.py -m unittest discover
           python -m unittest discover -p "Test*.py"
           coverage report -m
   deploy:
