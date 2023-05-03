@@ -29,7 +29,7 @@ class TestDirectoryMgr (unittest.TestCase):
         fileName = 'deleteCSV'
         database = 'testFolder'        
         path = os.getcwd()
-        path = path + '\\' + database + '\\' + fileName + '.csv'
+        path = path + '/' + database + '/' + fileName + '.csv'
         file = open(path, 'a')
         file.close()
         self.assertEqual(True, DirectoryMgr.removeFile(fileName, database))
