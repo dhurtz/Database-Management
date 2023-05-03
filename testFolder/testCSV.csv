@@ -1,2 +1,4 @@
+Variable, Worker, Number
 int, User, 3
 Char, Clerk, 4
+string, Conductor, 6

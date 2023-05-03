@@ -6,9 +6,8 @@ class Joiner:
     def __init__(self) -> None:
         pass
 
-    def outerJoin(self, first_tag, second_tag, first_table, second_table, database):
+    def outerJoin(first_tag, second_tag, first_table, second_table, database):
         # Initializing lists
-        helper = CSVHelper()
         output_list = []
         used_list = []
         path_one = os.getcwd()
@@ -29,8 +28,8 @@ class Joiner:
             file_two.close()
 
         # find the column where their tags reside
-        column_1 = helper.findColumn(data_1, first_tag)
-        column_2 = helper.findColumn(data_2, second_tag)
+        column_1 = CSVHelper.findColumn(data_1, first_tag)
+        column_2 = CSVHelper.findColumn(data_2, second_tag)
 
         # add both the headers to the output
         output_list.append(data_1[0] + data_2[0])
@@ -57,7 +56,6 @@ class Joiner:
     
     def innerJoin(first_tag, second_tag, first_table, second_table, database):
         # Initializing lists
-        helper = CSVHelper()
         output_list = []
 
         # Creating paths
@@ -79,8 +77,8 @@ class Joiner:
             file_two.close()
 
         # finding what columns these tags reside in
-        column_1 = helper.findColumn(data_1, first_tag)
-        column_2 = helper.findColumn(data_2, second_tag)
+        column_1 = CSVHelper.findColumn(data_1, first_tag)
+        column_2 = CSVHelper.findColumn(data_2, second_tag)
 
         # Adding the headers to the top of the output
         output_list.append(data_1[0] + data_2[0])
@@ -96,12 +94,11 @@ class Joiner:
         return output_list
     
     def printJoin(self, first_tag, second_tag, first_table, second_table, join_type, database):
-        helper = CSVHelper()
         if join_type == 'inner':
             output = self.innerJoin(first_tag, second_tag, first_table, second_table, database)
-            helper.printList(output)
+            CSVHelper.printList(output)
         elif join_type == 'outer':
             output = self.outerJoin(first_tag, second_tag, first_table, second_table, database)
-            helper.printList(output)
+            CSVHelper.printList(output)
         else:
             print('Error: invalid join type')
