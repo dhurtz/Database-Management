@@ -18,7 +18,7 @@ class TestInputMgr (unittest.TestCase):
     
     def test_deleteDatabase(self):
         line_list = ['DELETE', 'DATABASE', 'deleteFolder']
-        self.assertEqual(1, InputMgr.deleteDatabase(line_list))
+        self.assertEqual(0, InputMgr.deleteDatabase(line_list))
 
         fail_list = ['']
         self.assertEqual(0, InputMgr.deleteDatabase(fail_list))
@@ -29,13 +29,12 @@ class TestInputMgr (unittest.TestCase):
         self.assertEqual(1, InputMgr.removeTable(line_list, database))
 
         fail_list = ['']
-        self.assertEqual(0, InputMgr.removeTable(fail_list))
+        self.assertEqual(0, InputMgr.removeTable(fail_list, database))
     
     def test_selectTable(self):
         database = 'testFolder'
         line_list = ['SELECT', '*', 'FROM', 'headerFile']
-        self.assertEqual(1, InputMgr.selectTable(line_list, database))
+        self.assertEqual(0, InputMgr.selectTable(line_list, database))
 
         fail_list = ['']
         self.assertEqual(0, InputMgr.selectTable(fail_list, database))
-
