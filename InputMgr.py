@@ -346,7 +346,7 @@ class InputMgr:
             print('Error: No table name passed in')
             return 0
     
-    def updateLoop():
+    def updateLoop(line_list, current_directory):
         # while statement that doesn't break until the user uses a semicolon
         while True:
             # parsing the input
@@ -374,3 +374,4 @@ class InputMgr:
             ModifyCSV.changeValueWithDifferentColumn(line_list[1], current_directory, oldValue, newValue, firstColumn)
 
         print('Value successfully changed')
+        return 1

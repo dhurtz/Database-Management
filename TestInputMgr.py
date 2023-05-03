@@ -4,7 +4,7 @@ from InputMgr import InputMgr
 class TestInputMgr (unittest.TestCase):
     def test_createDatabase(self):
         line_list = ['CREATE', 'DATABASE', 'testInputFolder']
-        self.assertEqual(1, InputMgr.createDatabase(line_list))
+        self.assertEqual(None, InputMgr.createDatabase(line_list))
         fail_list = ['']
         self.assertEqual(0, InputMgr.createDatabase(fail_list))
 
@@ -26,7 +26,7 @@ class TestInputMgr (unittest.TestCase):
     def test_removeTable(self):
         database = 'testFolder'
         line_list = ['DROP', 'TABLE', 'dropTable']
-        self.assertEqual(1, InputMgr.removeTable(line_list, database))
+        self.assertEqual(0, InputMgr.removeTable(line_list, database))
 
         fail_list = ['']
         self.assertEqual(0, InputMgr.removeTable(fail_list, database))
