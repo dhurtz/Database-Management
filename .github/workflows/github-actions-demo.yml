@@ -34,8 +34,7 @@ jobs:
           coverage report -m
       - name: Get Test Report
         run: |
-          coverage run --include CSVHelper.py,DirectoryMgr.py,InputMgr.py,Joiner.py,ModifyCSV.py -m unittest discover
-          python -m unittest discover -p "Test*.py"
+          coverage run --omit TestCSVHelper.py,TestDirectoryMgr.py,TestInputMgr.py,TestJoiner.py,TestModifyCSV.p -m unittest discover -p "*.py"
           coverage report -m
   deploy:
         runs-on: ubuntu-latest
@@ -57,8 +56,7 @@ jobs:
               python -m unittest discover -p "Test*.py"
           - name: Check TestCoverage
             run: |
-              coverage run --include CSVHelper.py,DirectoryMgr.py,InputMgr.py,Joiner.py,ModifyCSV.p
-              python -m unittest discover -p "Test*.py"
+              coverage run --omit TestCSVHelper.py,TestDirectoryMgr.py,TestInputMgr.py,TestJoiner.py,TestModifyCSV.p -m unittest discover -p "*.py"
               coverage report -m
           - name: Run Docker image
             run: |
