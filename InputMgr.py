@@ -293,11 +293,6 @@ class InputMgr:
                 print('Table created successfully')
                 return 1
         except:
-            if DirectoryMgr.validateFile(fileName, current_directory):
-                print('Table already exists')
-                return 0
-            else:
-                print('Table name is invalid')
                 return 0
             
     def deleteDatabase(line_list):
@@ -350,3 +345,32 @@ class InputMgr:
         else:
             print('Error: No table name passed in')
             return 0
+    
+    def updateLoop():
+        # while statement that doesn't break until the user uses a semicolon
+        while True:
+            # parsing the input
+            new_input = input()
+            removed_semi_input = new_input
+            new_input_list = removed_semi_input.replace(';', '').split(' ')
+
+            # getting the column they want to change and the value they want to change it too
+            if new_input_list[0] == 'set':
+                firstColumn = new_input_list[1]
+                newValue = new_input_list[3]
+            # getting the second column to identify what data they want to change with the old value
+            elif new_input_list[0] == 'where':
+                secondColumn = new_input_list[1]
+                oldValue = new_input_list[3]
+            else:
+                print('Error: cannot read input')
+            if new_input.count(';') != 0:
+                break
+        # if the columns are the same we can use a specific function to change those values
+        if firstColumn == secondColumn:
+            ModifyCSV.changeValueWithSameColumn(line_list[1], current_directory, oldValue, newValue)
+        # if the columns are different we will want to use a different approach
+        elif firstColumn != secondColumn:
+            ModifyCSV.changeValueWithDifferentColumn(line_list[1], current_directory, oldValue, newValue, firstColumn)
+
+        print('Value successfully changed')
