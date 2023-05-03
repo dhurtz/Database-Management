@@ -112,7 +112,6 @@ class InputMgr:
                             print('Database is not selected')
                         else:
                             DirectoryMgr.readFile(line_list[3], current_directory)
-                            current_table = line_list[3]
                     except:
                         print('Error: problem reading file')
                 else:
