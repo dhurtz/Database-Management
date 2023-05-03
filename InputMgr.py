@@ -8,7 +8,7 @@ class InputMgr:
     def __init__(self) -> None:
         pass
 
-    def readInput():
+    def readInput(self):
         
         print('Please Enter a command \n'
             'Enter .EXIT to close program')
@@ -22,80 +22,19 @@ class InputMgr:
             # used to create database
             if line_list[0] == 'CREATE' and line_list[1] == 'DATABASE':
                 # checks to make sure that the command had passed in a database name
-                if len(line_list) == 3:
-                    try:
-                        DirectoryMgr.makeDir(line_list[2])
-                        print('Database created successfully')
-                    except:
-                        if DirectoryMgr.validateDir(line_list[2]):
-                            print('Database already exists')
-                        else:
-                            print('Database name is invalid')
-                else:
-                    print('Error: No database name passed in')
+                self.createDatabase(line_list)
 
             # used to create tables
             elif line_list[0] == 'create' and line_list[1] == 'table':
-                    try:
-                        # makes sure we are using a directory
-                        if len(current_directory) == 0:
-                            print('Database is not selected')
-                        else:
-                            line = line.replace('(', '')
-                            line = line.replace(')', '')
-                            line = line.replace(',', '')
-                            line_data = line.split(' ')
-                            # fileName = findTableName(line_list[2])
-
-                            # strips the parts of the string before the first (, removes the parenthesis, and makes it into a dict
-                            # first_parenth = line.index('(')
-                            # data = line[0: 0:] + line[first_parenth::]
-                            # data = removeOuterParentheses(data)
-                            # data = data.split(' ')
-                            fileName = line_data[2]
-                            data = []
-                            data.append(line_data[3])
-                            data.append(line_data[4])
-                            data.append(line_data[5])
-                            data.append(line_data[6])
-                            data_dict = CSVHelper.Convert(data)
-
-                            ModifyCSV.writeHeaders(fileName, current_directory, data_dict)
-                            current_table = fileName
-                            print('Table created successfully')
-                    except:
-                        if DirectoryMgr.validateFile(fileName, current_directory):
-                            print('Table already exists')
-                        else:
-                            print('Table name is invalid')
+                self.createTable(current_directory, line)
 
             # used to delete databases
             elif line_list[0] == 'DROP' and line_list[1] == 'DATABASE':
-                # checks to make sure that the database name was passed in
-                if len(line_list) == 3:
-                    try:
-                        DirectoryMgr.removeDir(line_list[2])
-                        print('Database removed successfully')
-                    except:
-                        print('Database does not exist')
-                else:
-                    print('Error: No database name passed in')
+                self.deleteDatabase(line_list)
 
             # used to delete tables
             elif line_list[0] == 'DROP' and line_list[1] == 'TABLE':
-                # checks to make sure that a file name was passed in
-                if len(line_list) == 3:
-                    try:
-                        # makes sure we are using a directory
-                        if len(current_directory) == 0:
-                            print('Database is not selected')
-                        else:
-                            DirectoryMgr.removeFile(line_list[2], current_directory)
-                            print('Table removed successfully')
-                    except:
-                        print('Table does not exist')
-                else:
-                    print('Error: No table name passed in')
+                self.removeTable(line_list, current_directory)
 
             # used to select which database we are using
             elif line_list[0] == 'USE' and DirectoryMgr.validateDir(line_list[1]):
@@ -104,18 +43,8 @@ class InputMgr:
 
             # Selects header information from table
             elif (len(line_list) > 2 and (line_list[0] == 'SELECT' and line_list[1] == '*' and line_list[2] == 'FROM')) or (len(line_list) > 2 and line_list[0] == 'select' and line_list[1] == '*' and line_list[2] == 'from'):
-                # makes sure that a table name was passed in
-                if len(line_list) == 4:
-                    try:
-                        # makes sure we are using a directory
-                        if len(current_directory) == 0:
-                            print('Database is not selected')
-                        else:
-                            DirectoryMgr.readFile(line_list[3], current_directory)
-                    except:
-                        print('Error: problem reading file')
-                else:
-                    print('Error: No table name passed in')
+                selectTable(line_list, current_directory)
+
             elif line_list[0] == 'select' and line_list[1] == '*':
                 try:
                     if len(current_directory) == 0:
@@ -321,3 +250,103 @@ class InputMgr:
                 print('Could not read input')
 
             line = input()
+
+    def createDatabase(line_list):
+        # checks to make sure that the command had passed in a database name
+        if len(line_list) == 3:
+            try:
+                DirectoryMgr.makeDir(line_list[2])
+                print('Database created successfully')
+                return 1
+            except:
+                if DirectoryMgr.validateDir(line_list[2]):
+                    print('Database already exists')
+                else:
+                    print('Database name is invalid')
+                    return 0
+        else:
+            print('Error: No database name passed in')
+            return 0
+
+    def createTable(current_directory, line):
+        try:
+            # makes sure we are using a directory
+            if len(current_directory) == 0:
+                print('Database is not selected')
+                return 0
+            else:
+                line = line.replace('(', '')
+                line = line.replace(')', '')
+                line = line.replace(',', '')
+                line_data = line.split(' ')
+
+                fileName = line_data[2]
+                data = []
+                data.append(line_data[3])
+                data.append(line_data[4])
+                data.append(line_data[5])
+                data.append(line_data[6])
+                data_dict = CSVHelper.Convert(data)
+
+                ModifyCSV.writeHeaders(fileName, current_directory, data_dict)
+                current_table = fileName
+                print('Table created successfully')
+                return 1
+        except:
+            if DirectoryMgr.validateFile(fileName, current_directory):
+                print('Table already exists')
+                return 0
+            else:
+                print('Table name is invalid')
+                return 0
+            
+    def deleteDatabase(line_list):
+        # checks to make sure that the database name was passed in
+        if len(line_list) == 3:
+            try:
+                DirectoryMgr.removeDir(line_list[2])
+                print('Database removed successfully')
+                return 1
+            except:
+                print('Database does not exist')
+                return 0
+        else:
+            print('Error: No database name passed in')
+            return 0
+
+    def removeTable(line_list, current_directory):
+        # checks to make sure that a file name was passed in
+        if len(line_list) == 3:
+            try:
+                # makes sure we are using a directory
+                if len(current_directory) == 0:
+                    print('Database is not selected')
+                    return 0
+                else:
+                    DirectoryMgr.removeFile(line_list[2], current_directory)
+                    print('Table removed successfully')
+                    return 1
+            except:
+                print('Table does not exist')
+                return 0
+        else:
+            print('Error: No table name passed in')
+            return 0
+
+    def selectTable(line_list, current_directory):
+        # makes sure that a table name was passed in
+        if len(line_list) == 4:
+            try:
+                # makes sure we are using a directory
+                if len(current_directory) == 0:
+                    print('Database is not selected')
+                    return 0
+                else:
+                    DirectoryMgr.readFile(line_list[3], current_directory)
+                    return 1
+            except:
+                print('Error: problem reading file')
+                return 0
+        else:
+            print('Error: No table name passed in')
+            return 0
