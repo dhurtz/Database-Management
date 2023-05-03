@@ -1,10 +1,9 @@
 from ModifyCSV import ModifyCSV
 
-valuesNotEqualFile = 'changeColumn'
+deleteGreaterFile = 'deleteGreater'
 database = 'testFolder'
-oldValue = '150'
-newValue = '25'
-columnName = 'Age'
+value = '22'
+column = 'Age'
 
-output = ModifyCSV.changeValueWithDifferentColumn(valuesNotEqualFile, database, oldValue, newValue, columnName)
+output = ModifyCSV.deleteValuesGreater(deleteGreaterFile, database, value, column)
 print(output)

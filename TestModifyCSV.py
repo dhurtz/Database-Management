@@ -33,7 +33,8 @@ class TestModifyCSV(unittest.TestCase):
         database = 'testFolder'
         oldValue = '21'
         newValue = '25'
-        output = [['String Name', 'Int Age', 'Float Weight'], ['Dustin', ' 21', ' 150'], ['John', ' 22', ' 60'], ['Ben', ' 22', ' 210']]
+        output = [['String Name', 'Int Age', 'Float Weight'], ['Dustin', ' 21', ' 150'], 
+                  ['John', ' 22', ' 60'], ['Ben', ' 22', ' 210']]
         self.assertEqual(output, ModifyCSV.changeValueWithSameColumn(sameColumnFile, database, oldValue, newValue))    
 
 
@@ -43,11 +44,30 @@ class TestModifyCSV(unittest.TestCase):
         oldValue = '150'
         newValue = '25'
         columnName = 'Age'
-        output = [['String Name', 'Int Age', 'Float Weight'], ['Dustin', '25', '150'], ['John', '19', '60'], ['Ben', '24', '210']]
+        output = [['String Name', 'Int Age', 'Float Weight'], ['Dustin', '25', '150'], 
+                  ['John', '19', '60'], ['Ben', '24', '210']]
         self.assertEqual(output, ModifyCSV.changeValueWithDifferentColumn(changeColumnFile, database, oldValue, newValue, columnName))
 
-    # def test_deleteValuesEqual(self):
-    
-    # def test_deleteValuesGreater(self):
+    def test_deleteValuesEqual(self):
+        deleteEqualFile = 'deleteEqual'
+        database = 'testFolder'
+        value = '21'
+        column = 'Int Age'
+        output = [['String Name', 'Int Age', 'Float Weight'], 
+                  ['Dustin', ' 21', ' 150'], ['John', ' 21', ' 60'], 
+                  ['Ben', ' 23', ' 210'], ['Floyd', ' 21', ' 220']]
+        self.assertEqual(output, ModifyCSV.deleteValuesEqual(deleteEqualFile, database, value, column))
 
-    # def test_removeOuterParentheses(self):
+    def test_deleteValuesGreater(self):
+        deleteGreaterFile = 'deleteGreater'
+        database = 'testFolder'
+        value = '22'
+        column = 'Int Age'
+        output = [['String Name', 'Int Age', 'Float Weight'], ['Dustin', ' 21', ' 150'], 
+                  ['John', ' 21', ' 60'], ['Floyd', ' 21', ' 220']]
+        self.assertEqual(output, ModifyCSV.deleteValuesGreater(deleteGreaterFile, database, value, column))
+
+
+    def test_removeOuterParentheses(self):
+        testString = '(Hello World)'
+        self.assertEqual('Hello World', ModifyCSV.removeOuterParentheses(testString))

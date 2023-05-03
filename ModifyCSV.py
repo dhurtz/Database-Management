@@ -112,6 +112,7 @@ class ModifyCSV:
         with open(path, 'w', newline='') as file:
             writer = csv.writer(file)
             writer.writerows(data)
+        return data
     
         # deletes rows that have elements greater than the value passed in
     def deleteValuesGreater(fileName, database, value, columnName):
@@ -130,6 +131,7 @@ class ModifyCSV:
         with open(path, 'w', newline='') as file:
             writer = csv.writer(file)
             writer.writerows(data)
+        return data
 
     # removes the outer parentheses from a string and returns it (This took too much time)
     def removeOuterParentheses(string):
