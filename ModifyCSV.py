@@ -17,6 +17,7 @@ class ModifyCSV:
                 new_row.append(key + ' ' + value)
             writer.writerow(new_row)
             file.close()
+            return 1
 
     # insert values into a table
     def insertValues(fileName, database, values):
@@ -26,6 +27,7 @@ class ModifyCSV:
             writer = csv.writer(file)
             writer.writerow(values)
             file.close()
+            return 1
     
         # reads data from a file
     def readFile(fileName, database):
@@ -36,6 +38,7 @@ class ModifyCSV:
             for line in reader:
                 print(' '.join(line))
             file.close()
+        return 1
 
         # prints values that meets the requirements of the value not being equal too
     def readSpecificValuesNotEqual(fileName, database, firstColumn, secondColumn, thirdColumn, value):

@@ -313,38 +313,6 @@ class InputMgr:
                     else:
                         print('Error: problem deleting information')
 
-            # elif line_list[0] == 'begin' and line_list[1] == 'transaction':
-            #     # locking file
-            #     lock = FileLock(current_table + '.lock')
-            #     try:
-            #         # acquiring lock,
-            #         # if it takes 5 seconds we can assume that we can't access it and return the user to the main state
-            #         lock.acquire(timeout=5)
-            #         with lock:
-            #             print('Transaction starts.')
-            #             # while the user hasn't committed their changes
-            #             while True:
-            #                 new_input = input()
-            #                 new_input_list = new_input.replace(';', '').split(' ')
-            #                 if new_input_list[0] == 'commit':
-            #                     lock.release()
-            #                     print('Changes Committed')
-            #                     break
-            #                 # we can update the table
-            #                 elif new_input_list[0] == 'update':
-            #                     first_header = new_input_list[3]
-            #                     second_header = new_input_list[7]
-            #                     first_value = new_input_list[5]
-            #                     second_value = new_input_list[9]
-            #                     try:
-            #                         modifyCSV.changeValueWithDifferentColumn(current_table, current_directory,
-            #                                                     second_value, first_value, first_header)
-            #                         print('File Updated')
-            #                     except:
-            #                         print('Error: Cannot update file')
-            #     except:
-            #         print('Error: file is already locked')
-
             # If user tries to commit while in the main for loop
             # we know that they haven't made any changes therefore we can abort
             elif line_list[0] == 'commit':
