@@ -30,7 +30,6 @@ jobs:
       - name: Test with unittest
         run: |        
           python -m unittest discover -p "Test*.py"
-          coverage report -m
       - name: Get Test Report
         run: |
           coverage run --omit TestCSVHelper.py,TestDirectoryMgr.py,TestInputMgr.py,TestJoiner.py,TestModifyCSV.py -m unittest discover -p "*.py"
