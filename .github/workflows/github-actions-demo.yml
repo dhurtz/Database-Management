@@ -34,7 +34,7 @@ jobs:
       - name: Get Test Report
         run: |
           coverage run -m --source=Database-Management unittest discover -p "Test*.py" 
-          coverage report -m         
+          coverage report -m --source=Database-Management
   deploy:
         runs-on: ubuntu-latest
         steps:
@@ -56,7 +56,7 @@ jobs:
           - name: Check TestCoverage
             run: |
               coverage run -m --source=Database-Management unittest discover -p "Test*.py"        
-              coverage report -m
+              coverage report -m --source=Database-Management
           - name: Run Docker image
             run: |
               docker run latest
