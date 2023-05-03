@@ -33,7 +33,8 @@ jobs:
           python -m unittest discover -p "Test*.py"
       - name: Get Test Report
         run: |
-          coverage run -m unittest discover -p "Test*.py"          
+          coverage run -m unittest discover -p --source
+          coverage report -m         
   deploy:
         runs-on: ubuntu-latest
         steps:
@@ -55,7 +56,7 @@ jobs:
               python -m unittest discover -p "Test*.py"
           - name: Check TestCoverage
             run: |
-              coverage run -m unittest discover -p "Test*.py"
+              coverage run -m unittest discover --source
               coverage report -m
           - name: Run Docker image
             run: |
