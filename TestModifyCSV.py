@@ -19,13 +19,33 @@ class TestModifyCSV(unittest.TestCase):
         database = 'testFolder'
         self.assertEqual(1, ModifyCSV.readFile(headerFile, database))
 
-    # def test_readSpecificValuesNotEqual(self):
+    def test_readSpecificValuesNotEqual(self):
+        valuesNotEqualFile = 'valuesNotEqual'
+        database = 'testFolder'
+        secondColumn = 'Weight'
+        thirdColumn = 'Name'
+        firstColumn = 'Age'
+        value = '21'
+        self.assertTrue('60 John', ModifyCSV.readSpecificValuesNotEqual(valuesNotEqualFile, database, firstColumn, secondColumn, thirdColumn, value))
 
-    
-    # def test_changeValueWithSameColumn(self):
+    def test_changeValueWithSameColumn(self):
+        sameColumnFile = 'sameColumn'
+        database = 'testFolder'
+        oldValue = '21'
+        newValue = '25'
+        output = [['String Name', 'Int Age', 'Float Weight'], ['Dustin', ' 21', ' 150'], ['John', ' 22', ' 60'], ['Ben', ' 22', ' 210']]
+        self.assertEqual(output, ModifyCSV.changeValueWithSameColumn(sameColumnFile, database, oldValue, newValue))    
 
-    # def test_changeValueWithDifferentColumn(self):
-    
+
+    def test_changeValueWithDifferentColumn(self):
+        changeColumnFile = 'changeColumn'
+        database = 'testFolder'
+        oldValue = '150'
+        newValue = '25'
+        columnName = 'Age'
+        output = [['String Name', 'Int Age', 'Float Weight'], ['Dustin', '25', '150'], ['John', '19', '60'], ['Ben', '24', '210']]
+        self.assertEqual(output, ModifyCSV.changeValueWithDifferentColumn(changeColumnFile, database, oldValue, newValue, columnName))
+
     # def test_deleteValuesEqual(self):
     
     # def test_deleteValuesGreater(self):

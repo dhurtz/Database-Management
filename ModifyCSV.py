@@ -58,6 +58,7 @@ class ModifyCSV:
                 if i != 0:
                     if float(data[i][firstColumnNum]) != float(value):
                         print(''.join(data[i][secondColumnNum] + ' ' + data[i][thirdColumnNum]))
+                        return ''.join(data[i][secondColumnNum] + ' ' + data[i][thirdColumnNum])
 
     # changes a value to a new one when the columns are the same
     def changeValueWithSameColumn(fileName, database, oldValue, newValue):
@@ -73,6 +74,7 @@ class ModifyCSV:
         with open(path, 'w', newline='') as file:
             writer = csv.writer(file)
             writer.writerows(data)
+        return data
 
     # change a value to a new one when the columns are different
     def changeValueWithDifferentColumn(fileName, database, oldValue, newValue, columnName):
@@ -91,6 +93,7 @@ class ModifyCSV:
         with open(path, 'w', newline='') as file:
             writer = csv.writer(file)
             writer.writerows(data)
+        return data
 
     
     # deletes rows that have elements equal to the value passed in
