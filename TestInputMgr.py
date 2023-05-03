@@ -38,3 +38,6 @@ class TestInputMgr (unittest.TestCase):
 
         fail_list = ['']
         self.assertEqual(0, InputMgr.selectTable(fail_list, database))
+
+    def test_updateLoop(self):
+        database = 'testFolder'

@@ -45,102 +45,6 @@ class InputMgr:
             elif (len(line_list) > 2 and (line_list[0] == 'SELECT' and line_list[1] == '*' and line_list[2] == 'FROM')) or (len(line_list) > 2 and line_list[0] == 'select' and line_list[1] == '*' and line_list[2] == 'from'):
                 self.selectTable(line_list, current_directory)
 
-            elif line_list[0] == 'select' and line_list[1] == '*':
-                try:
-                    if len(current_directory) == 0:
-                        print('Database is not selected')
-                    else:
-                        while True:
-                            new_input = input()
-                            new_input_list = new_input.replace(';', '').split(' ')
-
-                            # then we know they are entering in which tags they'd like to use
-                            if len(new_input_list) == 4:
-                                first_tag = new_input_list[1]
-                                second_tag = new_input_list[3]
-
-                                first_tag_index = first_tag.index('.')
-                                second_tag_index = second_tag.index('.')
-
-                                # parsing what tags they want via finding the periods and taking the string after that
-                                first_tag_parsed = first_tag[first_tag_index + 1:len(first_tag)]
-                                second_tag_parsed = second_tag[second_tag_index + 1:len(second_tag)]
-
-                                Joiner.printJoin(first_tag_parsed, second_tag_parsed, first_table, second_table, join_type, current_directory)
-
-                            # Then we know that they are using the short hand for the inner join
-                            elif len(new_input_list) == 5:
-                                first_table = new_input_list[1]
-                                second_table = new_input_list[3]
-                                join_type = 'inner'
-
-                            # they aren't specifying which side so we know  it's an inner join
-                            elif len(new_input_list) == 7:
-                                first_table = new_input_list[1]
-                                second_table = new_input_list[5]
-                                join_type = 'inner'
-
-                            # we know that it's outer because they must be specifying which side they'd like
-                            elif len(new_input_list) == 8:
-                                first_table = new_input_list[1]
-                                second_table = new_input_list[6]
-                                join_type = 'outer'
-
-                            # break us out of this input with a semi colon
-                            if new_input.count(';') > 0:
-                                break
-                except:
-                    print('Error reading file')
-
-            # for selecting specific columns to print out
-            elif line_list[0] == 'select':
-                try:
-                    if len(current_directory) == 0:
-                        print('Database is not selected')
-                    else:
-                        # loop to contain the commands that don't have semicolons
-                        while True:
-                            # parsing the new inputs
-                            new_input = input()
-                            removed_semi_input = new_input
-                            new_input_list = removed_semi_input.replace(';', '').split(' ')
-
-                            # getting the columns that the user wanted to print out
-                            secondColumn = line_list[1]
-                            thirdColumn = line_list[2]
-                            secondColumn.replace(',','')
-
-                            # getting which table they'd like
-                            if new_input_list[0] == 'from':
-                                table = new_input_list[1]
-
-                            # what condition they want to print it off of
-                            elif new_input_list[0] == 'where':
-                                firstColumn = new_input_list[1]
-                                if new_input_list[2] == '!=':
-                                    value = new_input_list[3]
-
-                            # break the loop if we have a semicolon in the command
-                            if new_input.count(';') > 0:
-                                break
-                        # after the statement is broken we attempt to print out the values
-                        ModifyCSV.readSpecificValuesNotEqual(table, current_directory, firstColumn, secondColumn, thirdColumn, value)
-                except:
-                    print('Error: problem reading file')
-            # Adds data to a table
-            elif line_list[0] == 'ALTER' and line_list[1] == 'TABLE' and line_list[3] == 'ADD':
-                try:
-                    if len(current_directory) == 0:
-                        print('Database is not selected')
-                    else:
-                        # strips the parts of the string before the first (, removes the parenthesis, and makes it into a list
-                        data = [line_list[4], line_list[5]]
-                        # we convert the data into key pair so that we can write it to the csv files
-                        data_dict = CSVHelper.Convert(data)
-                        ModifyCSV.writeHeaders(line_list[2], current_directory, data_dict)
-                        print('Table ' + line_list[2] + ' modified.')
-                except:
-                    print('Error: problem reading file')
             # inserting information into the tables
             elif line_list[0] == 'insert' and line_list[1] == 'into':
                 try:
@@ -164,44 +68,7 @@ class InputMgr:
                         print('Table does not exist')
                     else:
                         print('Error: problem inserting information')
-            # updating different parts of the tables
-            elif line_list[0] == 'update' and len(line_list) == 0:
-                try:
-                    if len(current_directory) == 0:
-                        print('Database is not selected')
-                    else:
-                        # while statement that doesn't break until the user uses a semicolon
-                        while True:
-                            # parsing the input
-                            new_input = input()
-                            removed_semi_input = new_input
-                            new_input_list = removed_semi_input.replace(';', '').split(' ')
 
-                            # getting the column they want to change and the value they want to change it too
-                            if new_input_list[0] == 'set':
-                                firstColumn = new_input_list[1]
-                                newValue = new_input_list[3]
-                            # getting the second column to identify what data they want to change with the old value
-                            elif new_input_list[0] == 'where':
-                                secondColumn = new_input_list[1]
-                                oldValue = new_input_list[3]
-                            else:
-                                print('Error: cannot read input')
-                            if new_input.count(';') != 0:
-                                break
-                        # if the columns are the same we can use a specific function to change those values
-                        if firstColumn == secondColumn:
-                            ModifyCSV.changeValueWithSameColumn(line_list[1], current_directory, oldValue, newValue)
-                        # if the columns are different we will want to use a different approach
-                        elif firstColumn != secondColumn:
-                            ModifyCSV.changeValueWithDifferentColumn(line_list[1], current_directory, oldValue, newValue, firstColumn)
-
-                        print('Value successfully changed')
-                except:
-                    if not DirectoryMgr.validateFile(line_list[1], current_directory):
-                        print('Table does not exist')
-                    else:
-                        print('Error: problem altering information')
             # deleting entries in tables
             elif line_list[0] == 'delete':
                 try:
@@ -346,32 +213,3 @@ class InputMgr:
             print('Error: No table name passed in')
             return 0
     
-    def updateLoop(line_list, current_directory):
-        # while statement that doesn't break until the user uses a semicolon
-        while True:
-            # parsing the input
-            new_input = input()
-            removed_semi_input = new_input
-            new_input_list = removed_semi_input.replace(';', '').split(' ')
-
-            # getting the column they want to change and the value they want to change it too
-            if new_input_list[0] == 'set':
-                firstColumn = new_input_list[1]
-                newValue = new_input_list[3]
-            # getting the second column to identify what data they want to change with the old value
-            elif new_input_list[0] == 'where':
-                secondColumn = new_input_list[1]
-                oldValue = new_input_list[3]
-            else:
-                print('Error: cannot read input')
-            if new_input.count(';') != 0:
-                break
-        # if the columns are the same we can use a specific function to change those values
-        if firstColumn == secondColumn:
-            ModifyCSV.changeValueWithSameColumn(line_list[1], current_directory, oldValue, newValue)
-        # if the columns are different we will want to use a different approach
-        elif firstColumn != secondColumn:
-            ModifyCSV.changeValueWithDifferentColumn(line_list[1], current_directory, oldValue, newValue, firstColumn)
-
-        print('Value successfully changed')
-        return 1
