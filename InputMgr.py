@@ -43,7 +43,7 @@ class InputMgr:
 
             # Selects header information from table
             elif (len(line_list) > 2 and (line_list[0] == 'SELECT' and line_list[1] == '*' and line_list[2] == 'FROM')) or (len(line_list) > 2 and line_list[0] == 'select' and line_list[1] == '*' and line_list[2] == 'from'):
-                selectTable(line_list, current_directory)
+                self.selectTable(line_list, current_directory)
 
             elif line_list[0] == 'select' and line_list[1] == '*':
                 try:
